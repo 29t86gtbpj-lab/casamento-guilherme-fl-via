@@ -127,6 +127,29 @@ mostrarPagina();
     mostrarPagina();
 }  
 mostrarPagina();
+      let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener("touchstart", function(e){
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend", function(e){
+    touchEndX = e.changedTouches[0].screenX;
+    verificarSwipe();
+});
+
+function verificarSwipe(){
+
+    if(touchStartX - touchEndX > 50){
+        proxima();
+    }
+
+    if(touchEndX - touchStartX > 50){
+        anterior();
+    }
+
+} 
 </script>
 
 </body>
