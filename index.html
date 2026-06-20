@@ -7,6 +7,12 @@
 <title>Guilherme & Flávia</title>
 
 <style>
+   #contador{
+    font-size:16px;
+    color:#0d3b4c;
+    margin-top:15px;
+    font-weight:bold;
+} 
 body{
     margin:0;
     background:#f5f1eb;
@@ -64,7 +70,7 @@ button{
     <button id="abrirConvite" onclick="abrirConvite()">
 ✨ Abrir Convite
 </button>
-
+<p id="contador">Página 1 de 10</p>
 <div class="botoes">
 <button onclick="anterior()">⬅ Anterior</button>
 <button onclick="proxima()">Próxima ➡</button>
@@ -92,7 +98,8 @@ let atual = 0;
 function mostrarPagina(){
 
     document.getElementById("pagina").src = paginas[atual];
-
+document.getElementById("contador").innerText =
+"Página " + (atual + 1) + " de " + paginas.length;
     const botao = document.getElementById("abrirConvite");
 
     if(atual === 0){
