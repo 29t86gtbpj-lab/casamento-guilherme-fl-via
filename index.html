@@ -12,7 +12,17 @@
     color:#0d3b4c;
     margin-top:15px;
     font-weight:bold;
-} 
+      } 
+   #presentes{
+    display:none;
+    background:#0d3b4c;
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    border-radius:40px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
 body{
     margin:0;
     background:#f5f1eb;
@@ -75,7 +85,11 @@ button{
 <button onclick="anterior()">⬅ Anterior</button>
 <button onclick="proxima()">Próxima ➡</button>
 </div>
-
+<a id="presentes"
+href="SEU_LINK_DA_LISTA"
+target="_blank">
+🎁 Ver Lista de Presentes
+</a>
 </div>
     
     <script>
@@ -101,7 +115,19 @@ function mostrarPagina(){
 document.getElementById("contador").innerText =
 "Página " + (atual + 1) + " de " + paginas.length;
     const botao = document.getElementById("abrirConvite");
+const rsvp = document.getElementById("rsvp");
+const presentes = document.getElementById("presentes");
 
+rsvp.style.display = "none";
+presentes.style.display = "none";
+
+if(atual === 6){
+    presentes.style.display = "inline-block";
+}
+
+if(atual === 7){
+    rsvp.style.display = "inline-block";
+}
     if(atual === 0){
         botao.style.display = "inline-block";
     }else{
