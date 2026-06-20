@@ -86,10 +86,8 @@ button{
 
 <div class="container">
 
-<img id="pagina" src="imagens/IMG_4212.png">
-    <button id="abrirConvite" onclick="abrirConvite()">
-✨ Abrir Convite
-</button>
+<img id="pagina" src="imagens/IMG_4212.png" onclick="clicarPagina()">
+    
 <p id="contador">Página 1 de 10</p>
 <div class="botoes">
 <button onclick="anterior()">⬅ Anterior</button>
@@ -129,7 +127,7 @@ function mostrarPagina(){
     document.getElementById("pagina").src = paginas[atual];
 document.getElementById("contador").innerText =
 "Página " + (atual + 1) + " de " + paginas.length;
-    const botao = document.getElementById("abrirConvite");
+    
 const rsvp = document.getElementById("rsvp");
 const presentes = document.getElementById("presentes");
 
@@ -143,12 +141,7 @@ if(atual === 6){
 if(atual === 7){
     rsvp.style.display = "inline-block";
 }
-    if(atual === 0){
-        botao.style.display = "inline-block";
-    }else{
-        botao.style.display = "none";
-    }
-}
+    
 
 function proxima(){
 if(atual < paginas.length - 1){
@@ -167,6 +160,11 @@ mostrarPagina();
     atual = 1;
     mostrarPagina();
 }  
+   function clicarPagina(){
+    if(atual === 0){
+        abrirConvite();
+    }
+}
 mostrarPagina();
       let touchStartX = 0;
 let touchEndX = 0;
