@@ -3,13 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Guilherme & Flávia</title>
 
 <style>
 body{
     margin:0;
     background:#f5f1eb;
+    font-family:Georgia, serif;
     text-align:center;
+}
+
+.container{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 }
 
 img{
@@ -18,21 +28,72 @@ img{
     display:block;
     margin:auto;
 }
+
+.botoes{
+    padding:20px;
+}
+
+button{
+    background:#0d3b4c;
+    color:white;
+    border:none;
+    padding:12px 24px;
+    margin:10px;
+    border-radius:30px;
+    font-size:16px;
+}
 </style>
 </head>
 
 <body>
 
-<img src="imagens/IMG_4212.png">
-<img src="imagens/IMG_4253.png">
-<img src="imagens/IMG_4255.png">
-<img src="imagens/IMG_4266.png">
-<img src="imagens/IMG_4256.png">
-<img src="imagens/IMG_4257.png">
-<img src="imagens/IMG_4258.png">
-<img src="imagens/IMG_4259.png">
-<img src="imagens/IMG_4260.png">
-<img src="imagens/IMG_4261.png">
+<div class="container">
+
+<img id="pagina" src="imagens/IMG_4212.png">
+
+<div class="botoes">
+<button onclick="anterior()">⬅ Anterior</button>
+<button onclick="proxima()">Próxima ➡</button>
+</div>
+
+</div>
+
+<script>
+
+const paginas = [
+"imagens/IMG_4212.png",
+"imagens/IMG_4253.png",
+"imagens/IMG_4255.png",
+"imagens/IMG_4266.png",
+"imagens/IMG_4256.png",
+"imagens/IMG_4257.png",
+"imagens/IMG_4258.png",
+"imagens/IMG_4259.png",
+"imagens/IMG_4260.png",
+"imagens/IMG_4261.png"
+];
+
+let atual = 0;
+
+function mostrarPagina(){
+document.getElementById("pagina").src = paginas[atual];
+}
+
+function proxima(){
+if(atual < paginas.length - 1){
+atual++;
+mostrarPagina();
+}
+}
+
+function anterior(){
+if(atual > 0){
+atual--;
+mostrarPagina();
+}
+}
+
+</script>
 
 </body>
 </html>
