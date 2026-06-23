@@ -165,7 +165,6 @@ mostrarPagina();
    function clicarPagina(event){
 
     const img = document.getElementById("pagina");
-
     const rect = img.getBoundingClientRect();
 
     const x = event.clientX - rect.left;
@@ -189,6 +188,41 @@ mostrarPagina();
 
         return;
     }
+
+    // LISTA DE PRESENTES (página 7)
+    if(atual === 6){
+
+        if(
+            x > largura * 0.25 &&
+            x < largura * 0.75 &&
+            y > altura * 0.62 &&
+            y < altura * 0.76
+        ){
+            window.open("COLE_AQUI_O_LINK_DA_LISTA", "_blank");
+        }
+
+        return;
+    }
+
+    // CONFIRMAÇÃO (página 8)
+    if(atual === 7){
+
+        if(
+            x > largura * 0.25 &&
+            x < largura * 0.75 &&
+            y > altura * 0.60 &&
+            y < altura * 0.76
+        ){
+            window.open(
+                "https://wa.me/5514996715109?text=Olá!%20Gostaria%20de%20confirmar%20minha%20presença%20no%20casamento.",
+                "_blank"
+            );
+        }
+
+        return;
+    }
+}
+    
 
     // LISTA DE PRESENTES
     if(atual === 6){
