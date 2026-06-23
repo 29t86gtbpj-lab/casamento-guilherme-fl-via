@@ -86,7 +86,7 @@ button{
 
 <div class="container">
 
-<img id="pagina" src="imagens/IMG_4212.png" onclick="clicarPagina()">
+<img id="pagina" src="imagens/IMG_4212.png" onclick="alert('clicou')">
     
 <p id="contador">Página 1 de 10</p>
 <div class="botoes">
@@ -162,8 +162,10 @@ mostrarPagina();
 }  
    function clicarPagina(){
     if(atual === 0){
-        abrirConvite();
+        atual = 1;
+        mostrarPagina();
     }
+}
 }
 mostrarPagina();
       let touchStartX = 0;
