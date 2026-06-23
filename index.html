@@ -59,14 +59,18 @@ body{
     flex-direction:column;
     justify-content:center;
     align-items:center;
+   transition: opacity 0.4s ease;
 }
-
-img{
+ 
+   img{
     width:100%;
     max-width:800px;
     display:block;
     margin:auto;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
+
 
 .botoes{
     display:none;
@@ -101,11 +105,7 @@ target="_blank">
 🎁 Ver Lista de Presentes
 </a>
 </div>
-   <a id="rsvp"
-href="https://wa.me/5514996715109?text=Olá!%20Gostaria%20de%20confirmar%20minha%20presença%20no%20casamento."
-target="_blank">
-💬 Confirmar Presença
-</a>
+  
     
     <script>
 
@@ -126,25 +126,21 @@ let atual = 0;
 
 function mostrarPagina(){
 
-    document.getElementById("pagina").src = paginas[atual];
-document.getElementById("contador").innerText =
-"Página " + (atual + 1) + " de " + paginas.length;
-    
-const rsvp = document.getElementById("rsvp");
-const presentes = document.getElementById("presentes");
+    const img = document.getElementById("pagina");
 
-rsvp.style.display = "none";
-presentes.style.display = "none";
+    img.style.opacity = 0;
 
-if(atual === 6){
-    presentes.style.display = "inline-block";
-}
+    setTimeout(() => {
 
-if(atual === 7){
-    rsvp.style.display = "inline-block";
-}
+        img.src = paginas[atual];
 
-}  
+        document.getElementById("contador").innerText =
+        "Página " + (atual + 1) + " de " + paginas.length;
+
+        img.style.opacity = 1;
+
+    }, 200);
+} 
     
 
 function proxima(){
