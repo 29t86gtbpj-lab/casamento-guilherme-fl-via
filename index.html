@@ -162,12 +162,69 @@ mostrarPagina();
     atual = 1;
     mostrarPagina();
 }  
-   function clicarPagina(){
+   function clicarPagina(event){
+
+    const img = document.getElementById("pagina");
+
+    const rect = img.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const largura = rect.width;
+    const altura = rect.height;
+
+    // CAPA
     if(atual === 0){
-        atual = 1;
-        mostrarPagina();
+
+        if(
+            x > largura * 0.35 &&
+            x < largura * 0.65 &&
+            y > altura * 0.78 &&
+            y < altura * 0.95
+        ){
+            atual = 1;
+            mostrarPagina();
+        }
+
+        return;
+    }
+
+    // LISTA DE PRESENTES
+    if(atual === 6){
+
+        if(
+            x > largura * 0.25 &&
+            x < largura * 0.75 &&
+            y > altura * 0.62 &&
+            y < altura * 0.76
+        ){
+            window.open("SEU_LINK_DA_LISTA","_blank");
+        }
+
+        return;
+    }
+
+    // CONFIRMAR PRESENÇA
+    if(atual === 7){
+
+        if(
+            x > largura * 0.25 &&
+            x < largura * 0.75 &&
+            y > altura * 0.60 &&
+            y < altura * 0.76
+        ){
+            window.open(
+                "https://wa.me/5514996715109?text=Olá!%20Gostaria%20de%20confirmar%20minha%20presença%20no%20casamento.",
+                "_blank"
+            );
+        }
+
+        return;
     }
 }
+   
+
 
 mostrarPagina();
       let touchStartX = 0;
