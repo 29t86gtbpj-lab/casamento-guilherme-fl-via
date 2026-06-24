@@ -1,1 +1,145 @@
-<h1>Livro 3D em construção</h1>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Livro 3D - Guilherme & Flávia</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#e8dfd3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    perspective:2000px;
+    overflow:hidden;
+}
+
+#livro{
+    width:350px;
+    height:620px;
+    position:relative;
+}
+
+#pagina{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+    transform-origin:left center;
+    transition:transform .8s ease;
+}
+
+.virando{
+    transform:rotateY(-180deg);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="livro">
+    <img id="pagina" src="imagens/IMG_4212.png">
+</div>
+
+<script>
+
+const paginas = [
+"imagens/IMG_4212.png",
+"imagens/IMG_4253.png",
+"imagens/IMG_4255.png",
+"imagens/IMG_4266.png",
+"imagens/IMG_4256.png",
+"imagens/IMG_4257.png",
+"imagens/IMG_4258.png",
+"imagens/IMG_4259.png",
+"imagens/IMG_4260.png",
+"imagens/IMG_4261.png"
+];
+
+let atual = 0;
+
+function proxima(){
+
+    if(atual >= paginas.length - 1) return;
+
+    const img = document.getElementById("pagina");
+
+    img.classList.add("virando");
+
+    setTimeout(() => {
+
+        atual++;
+        img.src = paginas[atual];
+
+    },400);
+
+    setTimeout(() => {
+
+        img.classList.remove("virando");
+
+    },800);
+}
+
+function anterior(){
+
+    if(atual <= 0) return;
+
+    const img = document.getElementById("pagina");
+
+    img.classList.add("virando");
+
+    setTimeout(() => {
+
+        atual--;
+        img.src = paginas[atual];
+
+    },400);
+
+    setTimeout(() => {
+
+        img.classList.remove("virando");
+
+    },800);
+}
+
+let touchStartX = 0;
+
+document.addEventListener("touchstart",(e)=>{
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend",(e)=>{
+
+    const fim = e.changedTouches[0].screenX;
+
+    if(touchStartX - fim > 50){
+        proxima();
+    }
+
+    if(fim - touchStartX > 50){
+        anterior();
+    }
+
+});
+
+document.addEventListener("click",(e)=>{
+
+    if(e.clientX > window.innerWidth/2){
+        proxima();
+    }else{
+        anterior();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
