@@ -167,6 +167,12 @@ const paginas = [
 
 let atual = 0;
 
+// links das páginas especiais (número da página começando em 1)
+const linksPagina = {
+    7: "#", // troque pelo link da lista de presentes quando tiver
+    8: "https://wa.me/5514996715109?text=Ol%C3%A1%21+Gostaria+de+confirmar+minha+presen%C3%A7a+no+casamento.+%F0%9F%92%8D%E2%9D%A4%EF%B8%8F"
+};
+
 const livro = document.getElementById("livro");
 
 // monta todas as páginas empilhadas, cada uma com frente (foto) e verso (papel com relevo)
@@ -224,6 +230,13 @@ document.addEventListener("touchend",(e)=>{
 });
 
 document.addEventListener("click",(e)=>{
+
+    // páginas com link (presentes / confirmar presença): clique abre o link
+    const numeroPaginaAtual = atual + 1;
+    if(linksPagina[numeroPaginaAtual]){
+        window.open(linksPagina[numeroPaginaAtual], "_blank");
+        return;
+    }
 
     // na capa (primeira página), qualquer clique abre o convite
     if(atual === 0){
