@@ -25,18 +25,122 @@ body{
     position:relative;
 }
 
-#pagina{
+.pagina{
+    position:absolute;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    object-fit:contain;
-    border-radius:12px;
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
+    transform-style:preserve-3d;
     transform-origin:left center;
     transition:transform .8s ease;
 }
 
+.face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.face.frente img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    background:#fff;
+}
+
+/* verso da página: papel com relevo floral, igual à referência */
+.face.verso{
+    transform:rotateY(180deg);
+    background:
+        radial-gradient(circle at 15% 10%, rgba(255,255,255,.95), transparent 55%),
+        linear-gradient(135deg, #fdfcf8 0%, #f2ede1 60%, #ece4d3 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ornamento floral gravado, desenhado em SVG (relevo baixo-branco) */
+.face.verso::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 620'>\
+<defs>\
+<filter id='emboss' x='-20%25' y='-20%25' width='140%25' height='140%25'>\
+<feGaussianBlur in='SourceAlpha' stdDeviation='2' result='blur'/>\
+<feOffset in='blur' dx='-2' dy='-2' result='off1'/>\
+<feFlood flood-color='%23ffffff' flood-opacity='0.9'/>\
+<feComposite in2='off1' operator='in' result='hl'/>\
+<feOffset in='blur' dx='2' dy='2' result='off2'/>\
+<feFlood flood-color='%23c9b98f' flood-opacity='0.45'/>\
+<feComposite in2='off2' operator='in' result='sh'/>\
+<feMerge><feMergeNode in='sh'/><feMergeNode in='hl'/><feMergeNode in='SourceGraphic'/></feMerge>\
+</filter>\
+</defs>\
+<g filter='url(%23emboss)' fill='none' stroke='%23e7ddc7' stroke-width='2'>\
+<path d='M40 0 C 60 60, 20 90, 60 140 C 100 180, 40 220, 90 260'/>\
+<path d='M40 20 C 70 50, 30 80, 70 110'/>\
+<path d='M60 40 C 40 60, 90 60, 70 90'/>\
+<circle cx='60' cy='40' r='5'/>\
+<circle cx='90' cy='90' r='4'/>\
+<circle cx='45' cy='120' r='3'/>\
+<path d='M310 620 C 290 560, 330 530, 290 480 C 250 440, 310 400, 260 360'/>\
+<path d='M310 600 C 280 570, 320 540, 280 510'/>\
+<path d='M290 580 C 310 560, 260 560, 280 530'/>\
+<circle cx='290' cy='580' r='5'/>\
+<circle cx='260' cy='530' r='4'/>\
+<circle cx='305' cy='500' r='3'/>\
+</g>\
+</svg>");
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    opacity:.9;
+}
+
+.face.verso .selo{
+    position:relative;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 35% 30%, #f3d98a, #c9a24b 45%, #8a6a24 100%);
+    box-shadow:0 4px 10px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Times New Roman', serif;
+    font-style:italic;
+    font-weight:700;
+    color:#4a3308;
+    font-size:1.1rem;
+    letter-spacing:1px;
+}
+
+/* sombra sutil simulando o papel curvando durante a virada */
+.pagina::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    background:linear-gradient(90deg, rgba(0,0,0,.3), transparent 45%);
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+    z-index:2;
+}
+
 .virando{
     transform:rotateY(-180deg);
+}
+
+.virando::after{
+    opacity:1;
 }
 
 </style>
@@ -44,9 +148,7 @@ body{
 
 <body>
 
-<div id="livro">
-    <img id="pagina" src="imagens/IMG_4212.png">
-</div>
+<div id="livro"></div>
 
 <script>
 
@@ -65,48 +167,40 @@ const paginas = [
 
 let atual = 0;
 
+const livro = document.getElementById("livro");
+
+// monta todas as páginas empilhadas, cada uma com frente (foto) e verso (papel com relevo)
+paginas.forEach((src, i) => {
+    const div = document.createElement("div");
+    div.className = "pagina";
+    div.style.zIndex = paginas.length - i;
+    div.innerHTML = `
+        <div class="face frente"><img src="${src}"></div>
+        <div class="face verso"><div class="selo">G&F</div></div>
+    `;
+    livro.appendChild(div);
+});
+
 function proxima(){
 
     if(atual >= paginas.length - 1) return;
 
-    const img = document.getElementById("pagina");
+    const pagina = livro.children[atual];
 
-    img.classList.add("virando");
+    pagina.classList.add("virando");
 
-    setTimeout(() => {
-
-        atual++;
-        img.src = paginas[atual];
-
-    },400);
-
-    setTimeout(() => {
-
-        img.classList.remove("virando");
-
-    },800);
+    atual++;
 }
 
 function anterior(){
 
     if(atual <= 0) return;
 
-    const img = document.getElementById("pagina");
+    atual--;
 
-    img.classList.add("virando");
+    const pagina = livro.children[atual];
 
-    setTimeout(() => {
-
-        atual--;
-        img.src = paginas[atual];
-
-    },400);
-
-    setTimeout(() => {
-
-        img.classList.remove("virando");
-
-    },800);
+    pagina.classList.remove("virando");
 }
 
 let touchStartX = 0;
@@ -143,3 +237,4 @@ document.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
