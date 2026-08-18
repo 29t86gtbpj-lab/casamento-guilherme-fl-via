@@ -4,124 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Guilherme & Flávia</title>
+<title>Livro 3D - Guilherme & Flávia</title>
 
 <style>
-   #contador{
-    font-size:16px;
-    color:#0d3b4c;
-    margin-top:15px;
-    font-weight:bold;
-      } 
-   #presentes{
-    display:none !important;
-}
-    background:#0d3b4c;
-    color:white;
-    text-decoration:none;
-    padding:15px 25px;
-    border-radius:40px;
-    font-weight:bold;
-    margin-bottom:15px;
-}
-   #rsvp{
-    display:none !important;
-}
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    padding:15px 25px;
-    border-radius:40px;
-    font-weight:bold;
-    margin-bottom:15px;
-}
+
 body{
     margin:0;
-    background:linear-gradient(
-        to bottom,
-        #e8dfd3,
-        #d9cfc1
-    );
-    font-family:Georgia, serif;
-    text-align:center;
-}
- #abrirConvite{
-    background:#d4af37;
-    color:white;
-    border:none;
-    padding:15px 35px;
-    border-radius:40px;
-    font-size:18px;
-    margin-top:20px;
-    cursor:pointer;
-    font-weight:bold;
-}   
-
-.container{
-    min-height:100vh;
+    background:#e8dfd3;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
-    padding:30px;
+    height:100vh;
+    perspective:2000px;
+    overflow:hidden;
 }
- 
- img{
-    width:100%;
-    max-width:800px;
-    display:block;
-    margin:auto;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.25);
 
-    transform-origin:left center;
-    transform-style:preserve-3d;
-    transition:transform 0.55s cubic-bezier(.4,0,.2,1);
+#livro{
+    width:350px;
+    height:620px;
     position:relative;
 }
-   #pagina{
-    box-shadow:
-    inset 25px 0 25px rgba(0,0,0,0.12),
-    0 10px 30px rgba(0,0,0,0.25);
+
+.pagina{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    transform-style:preserve-3d;
+    transform-origin:left center;
+    transition:transform .8s ease;
 }
 
-.botoes{
-    display:none;
+.face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
 
-button{
-    background:#0d3b4c;
-    color:white;
-    border:none;
-    padding:12px 24px;
-    margin:10px;
-    border-radius:30px;
-    font-size:16px;
+.face.frente img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    background:#fff;
 }
+
+/* verso da página: papel com relevo floral, igual à referência */
+.face.verso{
+    transform:rotateY(180deg);
+    background:
+        radial-gradient(circle at 15% 10%, rgba(255,255,255,.95), transparent 55%),
+        linear-gradient(135deg, #fdfcf8 0%, #f2ede1 60%, #ece4d3 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ornamento floral gravado, desenhado em SVG (relevo baixo-branco) */
+.face.verso::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 620'>\
+<defs>\
+<filter id='emboss' x='-20%25' y='-20%25' width='140%25' height='140%25'>\
+<feGaussianBlur in='SourceAlpha' stdDeviation='2' result='blur'/>\
+<feOffset in='blur' dx='-2' dy='-2' result='off1'/>\
+<feFlood flood-color='%23ffffff' flood-opacity='0.9'/>\
+<feComposite in2='off1' operator='in' result='hl'/>\
+<feOffset in='blur' dx='2' dy='2' result='off2'/>\
+<feFlood flood-color='%23c9b98f' flood-opacity='0.45'/>\
+<feComposite in2='off2' operator='in' result='sh'/>\
+<feMerge><feMergeNode in='sh'/><feMergeNode in='hl'/><feMergeNode in='SourceGraphic'/></feMerge>\
+</filter>\
+</defs>\
+<g filter='url(%23emboss)' fill='none' stroke='%23e7ddc7' stroke-width='2'>\
+<path d='M40 0 C 60 60, 20 90, 60 140 C 100 180, 40 220, 90 260'/>\
+<path d='M40 20 C 70 50, 30 80, 70 110'/>\
+<path d='M60 40 C 40 60, 90 60, 70 90'/>\
+<circle cx='60' cy='40' r='5'/>\
+<circle cx='90' cy='90' r='4'/>\
+<circle cx='45' cy='120' r='3'/>\
+<path d='M310 620 C 290 560, 330 530, 290 480 C 250 440, 310 400, 260 360'/>\
+<path d='M310 600 C 280 570, 320 540, 280 510'/>\
+<path d='M290 580 C 310 560, 260 560, 280 530'/>\
+<circle cx='290' cy='580' r='5'/>\
+<circle cx='260' cy='530' r='4'/>\
+<circle cx='305' cy='500' r='3'/>\
+</g>\
+</svg>");
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    opacity:.9;
+}
+
+.face.verso .selo{
+    position:relative;
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 35% 30%, #f3d98a, #c9a24b 45%, #8a6a24 100%);
+    box-shadow:0 4px 10px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Times New Roman', serif;
+    font-style:italic;
+    font-weight:700;
+    color:#4a3308;
+    font-size:1.1rem;
+    letter-spacing:1px;
+}
+
+/* sombra sutil simulando o papel curvando durante a virada */
+.pagina::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    background:linear-gradient(90deg, rgba(0,0,0,.3), transparent 45%);
+    opacity:0;
+    transition:opacity .4s ease;
+    pointer-events:none;
+    z-index:2;
+}
+
+.virando{
+    transform:rotateY(-180deg);
+}
+
+.virando::after{
+    opacity:1;
+}
+
 </style>
 </head>
 
 <body>
-  
 
-<div class="container">
+<div id="livro"></div>
 
-<img id="pagina" src="imagens/IMG_4212.png" onclick="clicarPagina(event)">
-    
-<p id="contador">Página 1 de 10</p>
-<div class="botoes">
-<button onclick="anterior()">⬅ Anterior</button>
-<button onclick="proxima()">Próxima ➡</button>
-</div>
-<a id="presentes"
-href="#"
-target="_blank">
-🎁 Ver Lista de Presentes
-</a>
-</div>
-  
-    
-    <script>
+<script>
 
 const paginas = [
 "imagens/IMG_4212.png",
@@ -138,131 +167,72 @@ const paginas = [
 
 let atual = 0;
 
-function mostrarPagina(){
+const livro = document.getElementById("livro");
 
-    const img = document.getElementById("pagina");
-
-    img.style.transform = "perspective(2000px) rotateY(-70deg)";
-
-    setTimeout(() => {
-
-        img.src = paginas[atual];
-
-        document.getElementById("contador").innerText =
-        "Página " + (atual + 1) + " de " + paginas.length;
-
-       img.style.transform = "perspective(2000px) rotateY(0deg)";
-
-    }, 250);
-} 
-    
+// monta todas as páginas empilhadas, cada uma com frente (foto) e verso (papel com relevo)
+paginas.forEach((src, i) => {
+    const div = document.createElement("div");
+    div.className = "pagina";
+    div.style.zIndex = paginas.length - i;
+    div.innerHTML = `
+        <div class="face frente"><img src="${src}"></div>
+        <div class="face verso"><div class="selo">G&F</div></div>
+    `;
+    livro.appendChild(div);
+});
 
 function proxima(){
-if(atual < paginas.length - 1){
-atual++;
-mostrarPagina();
-}
+
+    if(atual >= paginas.length - 1) return;
+
+    const pagina = livro.children[atual];
+
+    pagina.classList.add("virando");
+
+    atual++;
 }
 
 function anterior(){
-if(atual > 0){
-atual--;
-mostrarPagina();
+
+    if(atual <= 0) return;
+
+    atual--;
+
+    const pagina = livro.children[atual];
+
+    pagina.classList.remove("virando");
 }
-}
-  function abrirConvite(){
-    atual = 1;
-    mostrarPagina();
-}  
-   function clicarPagina(event){
 
-    const img = document.getElementById("pagina");
-    const rect = img.getBoundingClientRect();
+let touchStartX = 0;
 
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const largura = rect.width;
-    const altura = rect.height;
-
-    // CAPA
-    if(atual === 0){
-
-        if(
-            x > largura * 0.35 &&
-            x < largura * 0.65 &&
-            y > altura * 0.78 &&
-            y < altura * 0.95
-        ){
-            atual = 1;
-            mostrarPagina();
-        }
-
-        return;
-    }
-
-    // LISTA DE PRESENTES (página 7)
-    if(atual === 6){
-
-        if(
-            x > largura * 0.25 &&
-            x < largura * 0.75 &&
-            y > altura * 0.64 &&
-            y < altura * 0.78
-        ){
-            window.open("COLE_AQUI_O_LINK_DA_LISTA", "_blank");
-        }
-
-        return;
-    }
-
-    // CONFIRMAÇÃO (página 8)
-    if(atual === 7){
-
-        if(
-            x > largura * 0.25 &&
-            x < largura * 0.75 &&
-            y > altura * 0.60 &&
-            y < altura * 0.76
-        ){
-            window.open(
-                "https://wa.me/5514996715109?text=Olá!%20Gostaria%20de%20confirmar%20minha%20presença%20no%20casamento.",
-                "_blank"
-            );
-        }
-
-        return;
-    }
-}
-    
-
-   
-
-
-mostrarPagina();
-      let touchStartX = 0;
-let touchEndX = 0;
-
-document.addEventListener("touchstart", function(e){
+document.addEventListener("touchstart",(e)=>{
     touchStartX = e.changedTouches[0].screenX;
 });
 
-document.addEventListener("touchend", function(e){
-    touchEndX = e.changedTouches[0].screenX;
-    verificarSwipe();
-});
+document.addEventListener("touchend",(e)=>{
 
-function verificarSwipe(){
+    const fim = e.changedTouches[0].screenX;
 
-    if(touchStartX - touchEndX > 50){
+    if(touchStartX - fim > 50){
         proxima();
     }
 
-    if(touchEndX - touchStartX > 50){
+    if(fim - touchStartX > 50){
         anterior();
     }
 
-} 
+});
+
+document.addEventListener("click",(e)=>{
+
+    if(e.clientX > window.innerWidth/2){
+        proxima();
+    }else{
+        anterior();
+    }
+
+});
+
 </script>
 
 </body>
