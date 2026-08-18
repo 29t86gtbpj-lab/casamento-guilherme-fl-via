@@ -40,17 +40,14 @@ body{
     position:absolute;
     inset:0;
     backface-visibility:hidden;
-    border-radius:12px;
     overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
 
 .face.frente img{
     width:100%;
     height:100%;
-    object-fit:contain;
+    object-fit:cover;
     display:block;
-    background:#fff;
 }
 
 /* verso da página: papel com relevo floral, igual à referência */
@@ -127,7 +124,6 @@ body{
     content:"";
     position:absolute;
     inset:0;
-    border-radius:12px;
     background:linear-gradient(90deg, rgba(0,0,0,.3), transparent 45%);
     opacity:0;
     transition:opacity .4s ease;
@@ -243,3 +239,4 @@ document.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
