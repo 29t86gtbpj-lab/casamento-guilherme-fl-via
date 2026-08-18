@@ -225,6 +225,12 @@ document.addEventListener("touchend",(e)=>{
 
 document.addEventListener("click",(e)=>{
 
+    // na capa (primeira página), qualquer clique abre o convite
+    if(atual === 0){
+        proxima();
+        return;
+    }
+
     if(e.clientX > window.innerWidth/2){
         proxima();
     }else{
@@ -237,3 +243,4 @@ document.addEventListener("click",(e)=>{
 
 </body>
 </html>
+
