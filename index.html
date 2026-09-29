@@ -237,7 +237,50 @@ document.addEventListener("touchend",(e)=>{
 
 });
 
+// botões "Abrir localização" que fazem parte da imagem: áreas clicáveis invisíveis
+// posições em fração da imagem (x1, x2 = esquerda/direita; y1, y2 = topo/base)
+const botoesLocalizacao = {
+    4: {
+        url: "https://maps.app.goo.gl/267LG3owEGgr6xJq9?g_st=ic",
+        x1: 0.33, x2: 0.70, y1: 0.87, y2: 0.94
+    },
+    5: {
+        url: "https://maps.app.goo.gl/K3RfUVqnDqG6cGDU7?g_st=ic",
+        x1: 0.33, x2: 0.67, y1: 0.745, y2: 0.805
+    }
+};
+
+function cliqueNoBotaoLocalizacao(e){
+
+    const botao = botoesLocalizacao[atual + 1];
+    if(!botao) return false;
+
+    const img = livro.children[atual].querySelector(".frente img");
+    if(!img || !img.naturalWidth) return false;
+
+    // área realmente ocupada pela imagem (object-fit: contain)
+    const r = img.getBoundingClientRect();
+    const escala = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+    const w = img.naturalWidth * escala;
+    const h = img.naturalHeight * escala;
+    const x0 = r.left + (r.width - w) / 2;
+    const y0 = r.top + (r.height - h) / 2;
+
+    const fx = (e.clientX - x0) / w;
+    const fy = (e.clientY - y0) / h;
+
+    if(fx >= botao.x1 && fx <= botao.x2 && fy >= botao.y1 && fy <= botao.y2){
+        window.open(botao.url, "_blank");
+        return true;
+    }
+
+    return false;
+}
+
 document.addEventListener("click",(e)=>{
+
+    // botão "Abrir localização" nas páginas 4 e 5
+    if(cliqueNoBotaoLocalizacao(e)) return;
 
     // páginas com link (presentes / confirmar presença): clique abre o link
     const numeroPaginaAtual = atual + 1;
